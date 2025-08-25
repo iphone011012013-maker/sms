@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إرسال رسائل SMS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 50px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>مرحباً بكم في عالم AboElfadl Hacker 🔥💥</h1>
+    <p>أدخل رقم الهاتف وعدد الرسائل التي ترغب بإرسالها</p>
+
+    <form id="smsForm">
+        <input type="text" id="number" placeholder="اكتب رقم الهاتف 🪐💫" required>
+        <input type="number" id="count" placeholder="⚡😈 عدد الرسايل" min="1" max="100" required>
+        <button type="submit">إرسال</button>
+    </form>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    document.getElementById("smsForm").onsubmit = async function(e) {
+        e.preventDefault();
+        const number = document.getElementById("number").value;
+        const count = document.getElementById("count").value;
+
+        document.getElementById("result").innerText = "جاري الإرسال... ✨";
+
+        try {
+            const response = await fetch("/send-sms", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ number, count })
+            });
+
+            const data = await response.json();
+            document.getElementById("result").innerText = 
+                `تم الانتهاء: ${data.success_count} نجاح - ${data.failure_count} فشل`;
+        } catch (error) {
+            document.getElementById("result").innerText = "❌ حدث خطأ أثناء الإرسال";
+        }
+    };
+</script>
+
+</body>
+</html>
